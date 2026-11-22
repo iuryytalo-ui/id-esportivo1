@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="neon">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#090d16" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <title>💪🏻 ID ESPORTIVO ⚽ | Treino Inteligente & Alta Performance</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- TOP HEADER -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand" onclick="switchTab('dashboard')" title="Voltar ao Início">
+        <span class="brand-logo">💪🏻 ID ESPORTIVO ⚽</span>
+        <span class="brand-tag">PRO</span>
+      </div>
+
+      <!-- QUICK THEME PALETTE STRIP -->
+      <div class="header-palette-wrap" title="Trocar Paleta de Cores">
+        <span class="palette-label">🎨 Tema:</span>
+        <div id="quickPaletteBar" class="quick-palette-bar"></div>
+        <input type="color" id="quickCustomColor" class="quick-color-input" title="Cor Personalizada" value="#a1cc14" />
+      </div>
+
+      <!-- HEADER ACTIONS -->
+      <div class="topbar-actions">
+        <button class="btn-rest-pill" onclick="toggleRestDrawer()" title="Abrir Cronômetro de Descanso">
+          ⏱️ <span id="headerTimerText" class="mono">01:00</span>
+        </button>
+        <button class="btn-start-top" onclick="startActiveWorkout()">
+          🔥 Treinar Agora
+        </button>
+      </div>
+    </div>
+
+    <!-- NAVIGATION TABS -->
+    <nav class="main-nav" id="mainNav">
+      <button class="nav-btn active" data-tab="dashboard" onclick="switchTab('dashboard')">🏠 Início</button>
+      <button class="nav-btn" data-tab="builder" onclick="switchTab('builder')">⚡ Montar Treino</button>
+      <button class="nav-btn" data-tab="active" onclick="switchTab('active')">🔥 Treino Ativo</button>
+      <button class="nav-btn" data-tab="library" onclick="switchTab('library')">🎬 Biblioteca GIF</button>
+      <button class="nav-btn" data-tab="progress" onclick="switchTab('progress')">📈 Evolução</button>
+      <button class="nav-btn" data-tab="nutrition" onclick="switchTab('nutrition')">🥗 Nutrição & Calc</button>
+      <button class="nav-btn" data-tab="gemini" onclick="switchTab('gemini')">🤖 Personal GEMINI</button>
+      <button class="nav-btn" data-tab="settings" onclick="switchTab('settings')">🎨 Personalizar</button>
+    </nav>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="app-container">
+
+    <!-- ==================== TAB 1: DASHBOARD ==================== -->
+    <section id="tab-dashboard" class="tab-panel active">
+      <div class="tab-header-bar">
+        <div>
+          <h1 class="page-title">Painel de Performance</h1>
+          <p class="page-subtitle" id="dashGreeting">Pronto para superar seus limites hoje?</p>
+        </div>
+        <button class="btn-edit-tab" onclick="toggleEditPanel('edit-dashboard')">✏️ Editar / Ajustar</button>
+      </div>
+
+      <!-- EDIT PANEL: DASHBOARD -->
+      <div id="edit-dashboard" class="edit-drawer hidden">
+        <h3>⚙️ Ajustar Metas & Semana do Painel</h3>
+        <div class="form-grid-3">
+          <div class="field">
+            <label>Nome do Atleta</label>
+            <input type="text" id="editAthleteName" placeholder="Ex: Iury" />
+          </div>
+          <div class="field">
+            <label>Meta Semanal de Treinos</label>
+            <select id="editWeeklyGoal">
+              <option value="3">3x na semana</option>
+              <option value="4">4x na semana</option>
+              <option value="5">5x na semana</option>
+              <option value="6">6x na semana</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Meta de Água Diária (Litros)</label>
+            <input type="number" step="0.5" id="editWaterGoal" value="3.5" />
+          </div>
+        </div>
+        <div class="drawer-actions">
+          <button class="btn-primary" onclick="saveDashboardSettings()">💾 Salvar Ajustes</button>
+          <button class="btn-ghost" onclick="toggleEditPanel('edit-dashboard')">Fechar</button>
+        </div>
+      </div>
+
+      <!-- BENTO GRID DASHBOARD -->
+      <div class="bento-grid">
+        <!-- HERO WORKOUT CARD -->
+        <div class="bento-card bento-hero">
+          <div class="bento-badge-row">
+            <span class="pill-accent" id="dashSplitBadge">Divisão ABC</span>
+            <span class="pill-soft" id="dashGoalBadge">Hipertrofia & Condicionamento</span>
+          </div>
+          <h2 id="dashNextWorkoutTitle">Treino A — Peito, Ombro & Tríceps + Cardio</h2>
+          <p id="dashNextWorkoutMeta" class="muted-text">6 exercícios de força + 15 min Cardio Final Obrigatório • Descanso médio 60s</p>
+          <div class="hero-btn-row">
+            <button class="btn-primary btn-lg" onclick="startActiveWorkout()">▶️ Iniciar Treino de Hoje</button>
+            <button class="btn-secondary" onclick="switchTab('builder')">⚡ Ajustar Ficha</button>
+          </div>
+        </div>
+
+        <!-- DAILY TIP PERSONAL GEMINI -->
+        <div class="bento-card bento-tip">
+          <div class="card-top-row">
+            <span class="pill-accent">🤖 Dica do Dia • Personal GEMINI</span>
+            <button class="btn-icon-sm" onclick="refreshDailyTip()" title="Nova Dica">🔄</button>
+          </div>
+          <p id="dashDailyTipText" class="tip-highlight-text"></p>
+          <div class="tip-footer-row">
+            <span class="muted-xs" id="dashTipCategory">Foco: Execução & Hipertrofia</span>
+            <button class="link-btn" onclick="switchTab('gemini')">Falar com Personal →</button>
+          </div>
+        </div>
+
+        <!-- WEEKLY CHECK-IN & STREAK -->
+        <div class="bento-card">
+          <div class="card-top-row">
+            <h3>🔥 Frequência & Ofensiva</h3>
+            <span class="mono bold accent-text" id="dashStreakVal">0 dias</span>
+          </div>
+          <div class="week-days-row" id="dashWeekDays"></div>
+          <p class="muted-xs mt-8">Clique nos dias para marcar/desmarcar treinos concluídos na semana.</p>
+        </div>
+
+        <!-- QUICK REST TIMER CARD -->
+        <div class="bento-card">
+          <div class="card-top-row">
+            <h3>⏱️ Descanso Rápido</h3>
+            <span class="pill-soft">Auto-Alerta</span>
+          </div>
+          <div class="mini-timer-display mono" id="dashTimerDisplay">01:00</div>
+          <div class="preset-row">
+            <button class="chip-btn" onclick="startRestTimer(30)">30s</button>
+            <button class="chip-btn" onclick="startRestTimer(45)">45s</button>
+            <button class="chip-btn" onclick="startRestTimer(60)">60s</button>
+            <button class="chip-btn" onclick="startRestTimer(90)">90s</button>
+            <button class="chip-btn" onclick="startRestTimer(120)">2m</button>
+          </div>
+        </div>
+
+        <!-- STATS SUMMARY -->
+        <div class="bento-card">
+          <div class="card-top-row">
+            <h3>📊 Resumo Geral</h3>
+            <span class="pill-accent" id="dashLevelBadge">Nível 1 • Atleta</span>
+          </div>
+          <div class="kpi-grid">
+            <div class="kpi-box">
+              <span class="kpi-val mono" id="kpiTotalWorkouts">0</span>
+              <span class="kpi-lbl">Treinos Feitos</span>
+            </div>
+            <div class="kpi-box">
+              <span class="kpi-val mono" id="kpiTotalVolume">0 kg</span>
+              <span class="kpi-lbl">Volume Total</span>
+            </div>
+            <div class="kpi-box">
+              <span class="kpi-val mono" id="kpiCardioMins">0 min</span>
+              <span class="kpi-lbl">Cardio Final</span>
+            </div>
+            <div class="kpi-box">
+              <span class="kpi-val mono" id="kpiCurrentWeight">95.0 kg</span>
+              <span class="kpi-lbl">Peso Atual</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 2: SMART WORKOUT BUILDER ==================== -->
+    <section id="tab-builder" class="tab-panel">
+      <div class="tab-header-bar">
+        <div>
+          <h1 class="page-title">Montagem Inteligente de Treino</h1>
+          <p class="page-subtitle">Gere em 1 clique ou personalize cada exercício, carga, descanso e cardio final.</p>
+        </div>
+        <button class="btn-edit-tab" onclick="toggleEditPanel('edit-builder')">✏️ Editar / Ajustar</button>
+      </div>
+
+      <!-- EDIT PANEL: BUILDER GLOBAL -->
+      <div id="edit-builder" class="edit-drawer hidden">
+        <h3>🛠️ Ajustes Globais da Ficha & Novo Exercício</h3>
+        <div class="form-grid-3">
+          <div class="field">
+            <label>Descanso Padrão de Força (seg)</label>
+            <input type="number" id="globalRestInput" value="60" min="15" max="300" step="5" />
+          </div>
+          <div class="field">
+            <label>Duração Padrão do Cardio Final (min)</label>
+            <input type="number" id="globalCardioMins" value="15" min="5" max="60" step="5" />
+          </div>
+          <div class="field">
+            <label>Ação em Massa</label>
+            <button class="btn-secondary w-100" onclick="applyGlobalRest()">⏱️ Aplicar Descanso a Todos</button>
+          </div>
+        </div>
+        <hr class="divider" />
+        <h4>➕ Criar Exercício Personalizado neste Dia</h4>
+        <div class="form-grid-4">
+          <div class="field">
+            <label>Nome do Exercício</label>
+            <input type="text" id="customExName" placeholder="Ex: Agachamento Búlgaro" />
+          </div>
+          <div class="field">
+            <label>Grupo Muscular</label>
+            <select id="customExMuscle">
+              <option value="Peito">Peito</option>
+              <option value="Costas">Costas</option>
+              <option value="Pernas">Pernas</option>
+              <option value="Ombros">Ombros</option>
+              <option value="Bíceps">Bíceps</option>
+              <option value="Tríceps">Tríceps</option>
+              <option value="Abdômen">Abdômen</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Séries x Reps</label>
+            <input type="text" id="customExSetsReps" value="4x12" />
+          </div>
+          <div class="field">
+            <label>Dica Rápida</label>
+            <input type="text" id="customExTip" placeholder="Ex: Mantenha o tronco firme" />
+          </div>
+        </div>
+        <div class="drawer-actions">
+          <button class="btn-primary" onclick="addCustomExerciseToDay()">➕ Adicionar Exercício</button>
+          <button class="btn-ghost" onclick="toggleEditPanel('edit-builder')">Fechar</button>
+        </div>
+      </div>
+
+      <!-- SMART GENERATOR CONTROL CARD -->
+      <div class="generator-card">
+        <div class="gen-top-grid">
+          <div class="field">
+            <label>1. Escolha a Divisão do Treino</label>
+            <select id="splitSelector" onchange="changeSplitType(this.value)">
+              <option value="AB">Divisão AB (Superior / Inferior)</option>
+              <option value="ABC" selected>Divisão ABC (Clássica 3 Dias)</option>
+              <option value="ABCD">Divisão ABCD (4 Dias Detalhada)</option>
+              <option value="ABCDE">Divisão ABCDE (1 Músculo por Dia)</option>
+              <option value="FULLBODY">Full Body (Corpo Todo)</option>
+              <option value="UPPERLOWER">Upper / Lower (Força & Volume)</option>
+            </select>
+          </div>
+
+          <div class="field">
+            <label>2. Objetivo Livre (Digite o que quiser trabalhar!)</label>
+            <input type="text" id="customGoalInput" value="Hipertrofia Muscular" placeholder="Ex: Hipertrofia, Emagrecimento, Preparação TAF, Futebol..." />
+          </div>
+
+          <div class="field">
+            <label>3. Gerar Treino Completo (com Cardio Final)</label>
+            <button class="btn-primary w-100 btn-glow" onclick="generateSmartWorkout()">⚡ Gerar Treino Inteligente</button>
+          </div>
+        </div>
+
+        <!-- 1-CLICK GOAL PRESET PILLS -->
+        <div class="goal-pills-row">
+          <span class="muted-xs">Atalhos 1-Clique:</span>
+          <button class="pill-btn" onclick="quickGenerateGoal('Hipertrofia Muscular')">💪 Hipertrofia</button>
+          <button class="pill-btn" onclick="quickGenerateGoal('Emagrecimento & Definição')">🔥 Emagrecimento</button>
+          <button class="pill-btn" onclick="quickGenerateGoal('Força Bruta & Potência')">🏋️ Força Bruta</button>
+          <button class="pill-btn" onclick="quickGenerateGoal('Condicionamento & Futebol')">⚽ Futebol / Condicionamento</button>
+          <button class="pill-btn" onclick="quickGenerateGoal('Preparação TAF Policial')">🚔 Preparação TAF</button>
+          <button class="pill-btn" onclick="quickGenerateGoal('Resistência Muscular')">⚡ Resistência</button>
+        </div>
+      </div>
+
+      <!-- DAY TABS & UNDO BAR -->
+      <div class="day-bar-wrap">
+        <div id="workoutDayTabs" class="day-tabs"></div>
+        <div class="day-bar-actions">
+          <button id="undoDeleteBtn" class="btn-warning hidden" onclick="undoLastDelete()">↩️ Desfazer Exclusão</button>
+          <button class="btn-secondary" onclick="openLibraryPickerModal()">➕ Escolher da Biblioteca</button>
+          <button class="btn-primary" onclick="startActiveWorkout()">🔥 Treinar Este Dia</button>
+        </div>
+      </div>
+
+      <!-- DAY TITLE & WEEKDAY MAPPING -->
+      <div class="day-meta-strip">
+        <div class="day-title-edit">
+          <input type="text" id="currentDayFocusInput" class="inline-title-input" onchange="updateDayFocus(this.value)" />
+        </div>
+        <div class="weekday-pills" id="weekdayAssignPills"></div>
+      </div>
+
+      <!-- EXERCISES LIST -->
+      <div id="builderExerciseList" class="exercise-list"></div>
+
+      <!-- MANDATORY FINAL CARDIO BLOCK -->
+      <div id="builderCardioCard" class="cardio-mandatory-card"></div>
+    </section>
+
+    <!-- ==================== TAB 3: ACTIVE WORKOUT ==================== -->
+    <section id="tab-active" class="tab-panel">
+      <div class="tab-header-bar">
+        <div>
+          <h1 class="page-title" id="activeWorkoutTitle">Treino em Execução</h1>
+          <p class="page-subtitle" id="activeWorkoutSub">Marque cada série concluída — o descanso inicia automaticamente!</p>
+        </div>
+        <div class="active-top-btns">
+          <button class="btn-edit-tab" onclick="switchTab('builder')">✏️ Editar / Ajustar Ficha</button>
+          <button class="btn-primary" onclick="finishWorkoutSession()">🏁 Finalizar Treino</button>
+        </div>
+      </div>
+
+      <!-- PROGRESS BAR -->
+      <div class="session-progress-box">
+        <div class="progress-label-row">
+          <span>Progresso da Sessão (Força + Cardio Final)</span>
+          <span id="sessionProgressText" class="mono bold">0%</span>
+        </div>
+        <div class="progress-track">
+          <div id="sessionProgressFill" class="progress-fill" style="width: 0%"></div>
+        </div>
+      </div>
+
+      <div id="activeExerciseList" class="active-list"></div>
+      <div id="activeCardioBlock" class="cardio-mandatory-card mt-16"></div>
+    </section>
+
+    <!-- ==================== TAB 4: VISUAL EXERCISE LIBRARY ==================== -->
+    <section id="tab-library" class="tab-panel">
+      <div class="tab-header-bar">
+        <div>
+          <h1 class="page-title">Biblioteca Visual Animada (GIF HD)</h1>
+          <p class="page-subtitle">Demonstração anatômica de execução, músculo alvo e dicas facilitadas.</p>
+        </div>
+        <button class="btn-edit-tab" onclick="toggleEditPanel('edit-library')">✏️ Editar / Ajustar</button>
+      </div>
+
+      <div id="edit-library" class="edit-drawer hidden">
+        <h3>🎬 Controles de Visualização das Animações</h3>
+        <div class="form-grid-3">
+          <div class="field">
+            <label>Velocidade da Demonstração</label>
+            <select id="animSpeedSelect" onchange="setAnimSpeed(this.value)">
+              <option value="normal">1.0x Normal</option>
+              <option value="slow">0.5x Câmera Lenta (Didático)</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Mostrar Dicas Facilitadas</label>
+            <select id="showTipsSelect" onchange="renderLibrary()">
+              <option value="yes">Sempre Visíveis</option>
+              <option value="compact">Modo Compacto</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Ação</label>
+            <button class="btn-ghost w-100" onclick="toggleEditPanel('edit-library')">Fechar Painel</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="library-filter-bar">
+        <input type="text" id="librarySearchInput" placeholder="🔍 Buscar exercício (ex: Supino, Agachamento, Esteira...)" oninput="renderLibrary()" />
+        <div class="filter-chips" id="libraryMuscleChips"></div>
+      </div>
+
+      <div id="libraryGrid" class="library-grid"></div>
+    </section>
+
+    <!-- ==================== TAB 5: PROGRESS & EVOLUTION ==================== -->
+    <section id="tab-progress" class="tab-panel">
+      <div class="tab-header-bar">
+        <div>
+          <h1 class="page-title">Evolução Corporal & Recordes (PRs)</h1>
+          <p class="page-subtitle">Acompanhe seu peso, histórico de treinos concluídos e recordes de carga.</p>
+        </div>
+        <button class="btn-edit-tab" onclick="toggleEditPanel('edit-progress')">✏️ Editar / Ajustar</button>
+      </div>
+
+      <div id="edit-progress" class="edit-drawer hidden">
+        <h3>⚖️ Registrar Nova Medição Corporal</h3>
+        <div class="form-grid-4">
+          <div class="field">
+            <label>Peso Atual (kg)</label>
+            <input type="number" step="0.1" id="newWeightInput" placeholder="Ex: 93.5" />
+          </div>
+          <div class="field">
+            <label>Cintura (cm)</label>
+            <input type="number" step="0.5" id="newWaistInput" placeholder="Ex: 92" />
+          </div>
+          <div class="field">
+            <label>Braço (cm)</label>
+            <input type="number" step="0.5" id="newArmInput" placeholder="Ex: 39" />
+          </div>
+          <div class="field">
+            <label>Data</label>
+            <input type="date" id="newMeasureDate" />
+          </div>
+        </div>
+        <div class="drawer-actions">
+          <button class="btn-primary" onclick="addBodyMeasurement()">💾 Salvar Medição</button>
+          <button class="btn-ghost" onclick="toggleEditPanel('edit-progress')">Fechar</button>
+        </div>
+      </div>
+
+      <div class="bento-grid">
+        <div class="bento-card bento-span-2">
+          <div class="card-top-row">
+            <h3>📉 Gráfico de Evolução de Peso (kg)</h3>
+            <button class="btn-secondary btn-sm" onclick="toggleEditPanel('edit-progress')">+ Nova Pesagem</button>
+          </div>
+          <div id="weightChartContainer" class="chart-box"></div>
+        </div>
+
+        <div class="bento-card">
+          <h3>🏆 Conquistas & Medalhas</h3>
+          <div id="badgesList" class="badges-grid"></div>
+        </div>
+
+        <div class="bento-card bento-span-2">
+          <h3>📜 Histórico de Treinos Concluídos</h3>
+          <div id="workoutHistoryList" class="history-list"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 6: NUTRITION & CALCULATORS ==================== -->
+    <section id="tab-nutrition" class="tab-panel">
+      <div class="tab-header-bar">
+        <div>
+          <h1 class="page-title">Nutrição Esportiva & Calculadoras</h1>
+          <p class="page-subtitle">Hidratação diária, meta de proteínas, gasto calórico e carga máxima (1RM).</p>
+        </div>
+        <button class="btn-edit-tab" onclick="toggleEditPanel('edit-nutrition')">✏️ Editar / Ajustar</button>
+      </div>
+
+      <div id="edit-nutrition" class="edit-drawer hidden">
+        <h3>🥗 Ajustar Parâmetros Corporais para Cálculo</h3>
+        <div class="form-grid-4">
+          <div class="field">
+            <label>Peso (kg)</label>
+            <input type="number" id="calcWeight" value="95" />
+          </div>
+          <div class="field">
+            <label>Altura (cm)</label>
+            <input type="number" id="calcHeight" value="173" />
+          </div>
+          <div class="field">
+            <label>Idade (anos)</label>
+            <input type="number" id="calcAge" value="33" />
+          </div>
+          <div class="field">
+            <label>Objetivo Nutricional</label>
+            <select id="calcDietGoal">
+              <option value="cut">Déficit / Secar Gordura</option>
+              <option value="recomp" selected>Recomposição (Perder Gordura + Ganhar Massa)</option>
+              <option value="bulk">Superávit / Hipertrofia</option>
+            </select>
+          </div>
+        </div>
+        <div class="drawer-actions">
+          <button class="btn-primary" onclick="recalculateNutrition()">🔄 Recalcular Metas</button>
+          <button class="btn-ghost" onclick="toggleEditPanel('edit-nutrition')">Fechar</button>
+        </div>
+      </div>
+
+      <div class="bento-grid">
+        <!-- HYDRATION TRACKER -->
+        <div class="bento-card">
+          <div class="card-top-row">
+            <h3>💧 Hidratação Diária</h3>
+            <span class="mono bold accent-text" id="waterStatusText">0.0 / 3.5 L</span>
+          </div>
+          <div class="progress-track mt-8">
+            <div id="waterProgressFill" class="progress-fill" style="width: 0%"></div>
+          </div>
+          <div class="preset-row mt-12">
+            <button class="btn-secondary" onclick="addWater(0.25)">+ 250ml</button>
+            <button class="btn-secondary" onclick="addWater(0.5)">+ 500ml</button>
+            <button class="btn-ghost" onclick="resetWater()">Zerar</button>
+          </div>
+        </div>
+
+        <!-- MACROS & CALORIES -->
+        <div class="bento-card">
+          <h3>🥩 Metas Diárias Recomendadas</h3>
+          <div id="nutritionResultsBox" class="kpi-grid mt-8"></div>
+        </div>
+
+        <!-- 1RM CALCULATOR -->
+        <div class="bento-card">
+          <h3>🏋️ Calculadora de Força Máxima (1RM)</h3>
+          <div class="form-grid-2 mt-8">
+            <div class="field">
+              <label>Carga Levantada (kg)</label>
+              <input type="number" id="rmLoadInput" value="80" oninput="calc1RM()" />
+            </div>
+            <div class="field">
+              <label>Repetições Feitas</label>
+              <input type="number" id="rmRepsInput" value="8" min="1" max="20" oninput="calc1RM()" />
+            </div>
+          </div>
+          <div id="rmResultBox" class="rm-result mt-12"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 7: PERSONAL GEMINI ==================== -->
+    <section id="tab-gemini" class="tab-panel">
+      <div class="tab-header-bar">
+        <div>
+          <h1 class="page-title">🤖 Personal GEMINI — Consultor Inteligente</h1>
+          <p class="page-subtitle">Dicas facilitadas, análise automática do seu treino atual e respostas rápidas.</p>
+        </div>
+        <button class="btn-edit-tab" onclick="toggleEditPanel('edit-gemini')">✏️ Editar / Ajustar</button>
+      </div>
+
+      <div id="edit-gemini" class="edit-drawer hidden">
+        <h3>🔑 Configurar Foco do Personal & API Opcional</h3>
+        <div class="form-grid-2">
+          <div class="field">
+            <label>Nível de Experiência</label>
+            <select id="geminiLevelSelect">
+              <option value="Iniciante">Iniciante</option>
+              <option value="Intermediário" selected>Intermediário</option>
+              <option value="Avançado">Avançado</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Chave API Google Gemini (Opcional — funciona 100% sem chave também!)</label>
+            <input type="password" id="geminiApiKeyInput" placeholder="Cole sua chave AIza... se desejar IA na nuvem" />
+          </div>
+        </div>
+        <div class="drawer-actions">
+          <button class="btn-primary" onclick="saveGeminiSettings()">💾 Salvar Preferências</button>
+          <button class="btn-ghost" onclick="toggleEditPanel('edit-gemini')">Fechar</button>
+        </div>
+      </div>
+
+      <div class="bento-grid">
+        <div class="bento-card">
+          <h3>💡 Gerador de Dicas Facilitadas</h3>
+          <p class="muted-xs">Escolha um tema para receber orientações práticas e diretas:</p>
+          <div class="preset-row mt-8">
+            <button class="pill-btn" onclick="generateTopicTip('hipertrofia')">💪 Hipertrofia</button>
+            <button class="pill-btn" onclick="generateTopicTip('cardio')">🏃 Cardio Final</button>
+            <button class="pill-btn" onclick="generateTopicTip('descanso')">⏱️ Tempo de Descanso</button>
+            <button class="pill-btn" onclick="generateTopicTip('postura')">🎯 Execução & Postura</button>
+          </div>
+          <div id="geminiTipOutput" class="gemini-box mt-12"></div>
+        </div>
+
+        <div class="bento-card">
+          <h3>🩺 Diagnóstico do Seu Treino Atual</h3>
+          <p class="muted-xs">O Personal GEMINI verifica volume, tempo de descanso e cardio obrigatório da sua ficha.</p>
+          <button class="btn-primary mt-8" onclick="analyzeCurrentWorkout()">🔍 Analisar Minha Ficha Agora</button>
+          <div id="geminiAnalysisOutput" class="gemini-box mt-12">Clique no botão acima para auditar seu treino atual.</div>
+        </div>
+
+        <div class="bento-card bento-span-2">
+          <h3>💬 Pergunte ao Personal GEMINI</h3>
+          <div id="geminiChatHistory" class="chat-feed"></div>
+          <div class="chat-input-row mt-8">
+            <input type="text" id="geminiChatInput" placeholder="Ex: Qual o melhor descanso para hipertrofia? Como substituir supino reto?" onkeydown="if(event.key==='Enter') sendGeminiChat()" />
+            <button class="btn-primary" onclick="sendGeminiChat()">Enviar</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TAB 8: CUSTOMIZE & SETTINGS ==================== -->
+    <section id="tab-settings" class="tab-panel">
+      <div class="tab-header-bar">
+        <div>
+          <h1 class="page-title">🎨 Personalização de Cores & Backup</h1>
+          <p class="page-subtitle">Escolha entre 10 paletas exclusivas ou crie sua própria cor principal.</p>
+        </div>
+        <button class="btn-edit-tab" onclick="toggleEditPanel('edit-settings')">✏️ Editar / Ajustar</button>
+      </div>
+
+      <div id="edit-settings" class="edit-drawer hidden">
+        <h3>💾 Backup & Restauração de Dados</h3>
+        <p class="muted-xs">Exporte seus treinos e histórico em arquivo JSON ou restaure em outro dispositivo.</p>
+        <div class="preset-row mt-8">
+          <button class="btn-primary" onclick="exportBackupJSON()">⬇️ Baixar Backup (.json)</button>
+          <label class="btn-secondary file-upload-btn">
+            ⬆️ Importar Backup (.json)
+            <input type="file" accept=".json" onchange="importBackupJSON(event)" hidden />
+          </label>
+          <button class="btn-danger" onclick="resetAllData()">⚠️ Resetar Padrões</button>
+        </div>
+      </div>
+
+      <div class="bento-card">
+        <h3>🌈 Seletor de Paleta de Cores da Plataforma</h3>
+        <p class="muted-xs">Clique em qualquer tema abaixo para transformar toda a interface instantaneamente:</p>
+        <div id="fullPaletteGrid" class="palette-grid mt-12"></div>
+
+        <div class="custom-color-bar mt-16">
+          <div>
+            <strong>🎯 Cor de Destaque 100% Personalizada:</strong>
+            <p class="muted-xs">Escolha qualquer tom no seletor ao lado para combinar com seu estilo.</p>
+          </div>
+          <input type="color" id="settingsCustomColor" value="#a1cc14" onchange="applyCustomAccent(this.value)" />
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FLOATING REST TIMER DRAWER -->
+  <div id="restTimerDrawer" class="floating-timer hidden">
+    <div class="ft-header">
+      <span>⏱️ Cronômetro de Descanso</span>
+      <button class="btn-icon-sm" onclick="toggleRestDrawer()">✕</button>
+    </div>
+    <div class="ft-ring-wrap">
+      <svg class="ft-svg" viewBox="0 0 120 120">
+        <circle class="ft-bg" cx="60" cy="60" r="52"></circle>
+        <circle id="ftProgressRing" class="ft-fg" cx="60" cy="60" r="52" stroke-dasharray="326.7" stroke-dashoffset="0"></circle>
+      </svg>
+      <div id="ftTimeDisplay" class="ft-time mono">01:00</div>
+    </div>
+    <div class="ft-controls">
+      <button class="chip-btn" onclick="adjustRestTimer(-15)">-15s</button>
+      <button class="btn-primary btn-sm" id="ftPlayPauseBtn" onclick="togglePauseRestTimer()">⏸️ Pausar</button>
+      <button class="chip-btn" onclick="adjustRestTimer(15)">+15s</button>
+    </div>
+    <div class="preset-row mt-8">
+      <button class="chip-btn" onclick="startRestTimer(30)">30s</button>
+      <button class="chip-btn" onclick="startRestTimer(45)">45s</button>
+      <button class="chip-btn" onclick="startRestTimer(60)">60s</button>
+      <button class="chip-btn" onclick="startRestTimer(90)">90s</button>
+    </div>
+  </div>
+
+  <!-- MODAL: EXERCISE DEMONSTRATION & SWAP -->
+  <div id="exerciseModal" class="modal-backdrop hidden" onclick="if(event.target===this) closeExerciseModal()">
+    <div class="modal-card">
+      <div class="modal-top">
+        <h3 id="modalExTitle">Demonstração do Exercício</h3>
+        <button class="btn-icon-sm" onclick="closeExerciseModal()">✕</button>
+      </div>
+      <div id="modalExBody"></div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toastBox" class="toast hidden"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
